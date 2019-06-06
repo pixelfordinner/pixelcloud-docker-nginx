@@ -1,12 +1,27 @@
-version: "2"
+version: '3'
 
 services:
-  webserver-nginx:
-    image: "pixelfordinner/nginx-test"
-    container_name: "nginx-test"
+  nginx:
+    image: pixelfordinner/nginx-test
+    container_name: nginx-test-nginx
     restart: unless-stopped
     volumes:
-      - "./volumes/conf.d:/etc/nginx/conf.d:ro"
-      - "./volumes/www:/opt/www/:ro"
+      - ./volumes/conf.d:/etc/nginx/conf.d:ro
+      - ./volumes/www:/opt/www/:ro
     ports:
-      - "9090:80"
+      - 9090:80
+    networks:
+      - back-tier
+  php:
+    image: pixelfordinner/php:7.3
+    container_name: nginx-test-php
+    restart: unless-stopped
+    user: ${UID}:${GID}
+    volumes:
+      - ./volumes/www:/opt/www/
+    networks:
+      - back-tier
+
+networks:
+  back-tier:
+    driver: bridge
