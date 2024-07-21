@@ -1,7 +1,7 @@
-FROM nginx:mainline-alpine
+FROM nginx:1.27.0-alpine
 LABEL maintainer="Karl Fathi <karl@pixelfordinner.com>"
 
-ENV LANG C.UTF-8
+ENV LANG=C.UTF-8
 
 RUN rm /etc/nginx/nginx.conf && \
     rm /etc/nginx/fastcgi_params && \
